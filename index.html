@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0a0f1c">
+<meta name="description" content="音源ファイルなしで環境音を合成するミキサー。雨・波・風・焚き火・電車・夜の虫を重ねて再生できます。">
+<title>おとや｜環境音ミキサー</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<script>
+try {
+  var savedTheme = localStorage.getItem("otoya-theme");
+  if (savedTheme === "light" || savedTheme === "dark") {
+    document.documentElement.setAttribute("data-theme", savedTheme);
+  }
+} catch (e) { /* テーマ保存が使えない環境ではダークを既定にする */ }
+</script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- 🧭 トップバー -->
+<nav class="topbar">
+  <div class="wrap topbar-in">
+    <a class="brand" href="#top">🎧 おとや</a>
+    <span class="topbar-links">
+      <button type="button" class="theme-toggle" id="themeToggle" aria-label="テーマ切り替え">🌙</button>
+    </span>
+  </div>
+</nav>
+
+<!-- 🏠 ヘッダー -->
+<header class="site-header" id="top">
+  <h1>🎧 おとや</h1>
+  <p class="subtitle">環境音ミキサー ― 音源なしで合成しています</p>
+</header>
+
+<!-- 📄 メイン -->
+<main>
+  <section class="panel master-panel">
+    <button id="masterBtn" class="master-btn" type="button">▶ すべて再生</button>
+    <div class="timer-box">
+      <span class="timer-label">スリープタイマー</span>
+      <div class="timer-btns" role="group" aria-label="スリープタイマー">
+        <button type="button" class="chip" data-timer="15">15分</button>
+        <button type="button" class="chip" data-timer="30">30分</button>
+        <button type="button" class="chip" data-timer="60">60分</button>
+        <button type="button" class="chip" data-timer="0">オフ</button>
+      </div>
+      <p id="timerStatus" class="timer-status" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>プリセット</h2>
+    <div class="preset-btns">
+      <button type="button" class="preset-btn" data-preset="focus">📚 集中</button>
+      <button type="button" class="preset-btn" data-preset="relax">🌿 リラックス</button>
+      <button type="button" class="preset-btn" data-preset="sleep">🌙 睡眠</button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>サウンド</h2>
+    <div id="soundList" class="sound-list"></div>
+    <p class="hint">各サウンドは個別にON/OFFと音量を調整できます。複数を同時に重ねられます。設定は自動で保存されます。</p>
+  </section>
+</main>
+
+<!-- 📎 フッター -->
+<footer class="site-footer">
+  <p>おとや ― Web Audio APIでリアルタイム合成（音源ファイル不使用）</p>
+</footer>
+
+<script src="js/mixer-core.js"></script>
+<script src="app.js"></script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  });
+}
+</script>
+</body>
+</html>
