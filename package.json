@@ -1,0 +1,1 @@
+{"description":"おとや｜環境音ミキサー（Web Audio API で環境音を合成する静的 PWA）","name":"otoya","private":true,"scripts":{"test":"node --test tests/*.test.js"},"version":"1.0.0"}
